@@ -77,43 +77,78 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Enhanced Target Audience Section */}
-          <div className="max-w-6xl mx-auto mb-32">
-            <h2 className="text-3xl font-bold mb-12 text-center">Built for Every Professional</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Built for Every Professional Section */}
+          <div className="mb-32">
+            <h2 className="text-3xl font-bold mb-12">Built for Every Professional</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 {
                   title: "Product Managers",
-                  description: "Streamline project planning and tracking",
-                  image: "https://images.unsplash.com/photo-1531498860502-7c67cf02f657?q=80&w=400&h=300&fit=crop"
+                  subtitle: "Streamline your workflow",
+                  description: "Transform project planning and execution with AI-powered tools and seamless integrations.",
+                  image: "https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&q=80",
+                  alt: "Team collaborating on a project board"
                 },
                 {
-                  title: "Creators",
-                  description: "Focus on creativity, not administration",
-                  image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=400&h=300&fit=crop"
+                  title: "Creators & Designers",
+                  subtitle: "Focus on creativity",
+                  description: "Automate administrative tasks and streamline your creative process with intelligent tools.",
+                  image: "https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&q=80",
+                  alt: "Designer working on a creative project"
                 },
                 {
-                  title: "SMEs",
-                  description: "Enhance business productivity",
-                  image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=400&h=300&fit=crop"
+                  title: "SME Solutions",
+                  subtitle: "Scale your business",
+                  description: "Generate websites, manage orders, and handle customer interactions effortlessly.",
+                  image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80",
+                  alt: "Business analytics and growth"
                 },
                 {
-                  title: "Enterprises",
-                  description: "Unify teams and workflows",
-                  image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=400&h=300&fit=crop"
+                  title: "Enterprise Teams",
+                  subtitle: "Unify your workforce",
+                  description: "Connect teams and workflows with enterprise-grade security and scalable solutions.",
+                  image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80",
+                  alt: "Modern office workspace"
                 }
-              ].map((audience, i) => (
-                <div key={i} className="group relative overflow-hidden rounded-xl">
-                  <div className="aspect-[4/3] relative">
-                    <img 
-                      src={audience.image} 
-                      alt={audience.title}
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="group relative overflow-hidden rounded-3xl h-[400px] bg-white dark:bg-black"
+                >
+                  <div className="absolute inset-0 w-full h-full">
+                    <img
+                      src={item.image}
+                      alt={item.alt}
                       className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                      <h3 className="font-semibold text-xl mb-2">{audience.title}</h3>
-                      <p className="text-sm text-gray-200">{audience.description}</p>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div>
+                  </div>
+                  <div className="relative h-full p-8 flex flex-col justify-end text-white">
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                      <p className="text-2xl font-bold mb-4">{item.subtitle}</p>
+                      <p className="text-gray-200 mb-6">{item.description}</p>
+                    </div>
+                    <div className="transform translate-y-8 transition-transform duration-300 group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
+                      <a
+                        href="#"
+                        className="inline-flex items-center text-sm font-semibold text-white hover:opacity-80"
+                      >
+                        Learn more
+                        <svg
+                          className="ml-2 w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </a>
                     </div>
                   </div>
                 </div>

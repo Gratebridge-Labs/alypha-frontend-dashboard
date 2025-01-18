@@ -6,6 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function PaperworkPage() {
   const [activeTab, setActiveTab] = useState('contracts');
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null);
+  const [prompt, setPrompt] = useState('');
   const [selectedTemplateType, setSelectedTemplateType] = useState('');
 
   const tabs = [
@@ -17,6 +20,12 @@ export default function PaperworkPage() {
   const openTemplateModal = (type: string) => {
     setSelectedTemplateType(type);
     setIsTemplateModalOpen(true);
+  };
+
+  const handleTemplateSelect = (templateId: number) => {
+    setSelectedTemplate(templateId);
+    setIsTemplateModalOpen(false);
+    setIsCreateModalOpen(true);
   };
 
   return (
@@ -87,25 +96,23 @@ export default function PaperworkPage() {
         </div>
       </div>
 
-      {/* Template Modal */}
+      {/* Template Selection Modal */}
       <AnimatePresence>
         {isTemplateModalOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsTemplateModalOpen(false)}
-              className="fixed inset-0 bg-black/20 dark:bg-white/20 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-black/5 dark:bg-white/5 backdrop-blur-sm z-40"
             />
             
-            {/* Modal */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="fixed inset-8 bg-white dark:bg-black rounded-xl shadow-2xl z-50 overflow-hidden"
+              className="fixed inset-x-4 top-[10%] max-w-6xl mx-auto h-[80vh] bg-white dark:bg-black rounded-xl shadow-2xl z-50 overflow-hidden"
             >
               <div className="h-full flex flex-col">
                 {/* Modal Header */}
@@ -156,6 +163,7 @@ export default function PaperworkPage() {
                     {[1, 2, 3, 4, 5].map((i) => (
                       <div
                         key={i}
+                        onClick={() => handleTemplateSelect(i)}
                         className="p-4 rounded-lg border border-black/[.08] dark:border-white/[.08] hover:bg-black/[.02] dark:hover:bg-white/[.02] cursor-pointer"
                       >
                         <div className="aspect-[3/4] mb-3 rounded-lg bg-black/[.02] dark:bg-white/[.02]" />
@@ -181,6 +189,66 @@ export default function PaperworkPage() {
                       Use Template
                     </button>
                   </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Create Contract Modal */}
+      <AnimatePresence>
+        {isCreateModalOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsCreateModalOpen(false)}
+              className="fixed inset-0 bg-black/5 dark:bg-white/5 backdrop-blur-sm z-40"
+            />
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="fixed inset-x-4 top-[10%] max-w-2xl mx-auto bg-white dark:bg-black rounded-xl shadow-2xl z-50"
+            >
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-semibold">Create Contract</h2>
+                  <button
+                    onClick={() => setIsCreateModalOpen(false)}
+                    className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="mb-6">
+                  <label className="block text-sm font-medium mb-2">
+                    Describe your contract requirements
+                  </label>
+                  <textarea
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder="Example: Create a freelance contract for web development services, including payment terms of $75/hour, weekly billing, and standard confidentiality clauses..."
+                    className="w-full h-32 p-3 rounded-lg border border-black/[.08] dark:border-white/[.08] bg-white dark:bg-black focus:ring-2 focus:ring-black dark:focus:ring-white focus:outline-none resize-none"
+                  />
+                </div>
+
+                <div className="flex justify-end gap-3">
+                  <button
+                    onClick={() => setIsCreateModalOpen(false)}
+                    className="px-4 py-2 text-sm border border-black/[.08] dark:border-white/[.08] rounded-lg hover:bg-black/[.02] dark:hover:bg-white/[.02]"
+                  >
+                    Cancel
+                  </button>
+                  <button className="px-4 py-2 text-sm bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200">
+                    Generate Contract
+                  </button>
                 </div>
               </div>
             </motion.div>

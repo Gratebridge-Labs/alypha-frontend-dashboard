@@ -1,14 +1,18 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { contractTemplates } from '@/data/contractTemplates';
 
 export default function PaperworkPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState('contracts');
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null);
   const [prompt, setPrompt] = useState('');
+  const [isCreating, setIsCreating] = useState(false);
   const [selectedTemplateType, setSelectedTemplateType] = useState('');
 
   const tabs = [
@@ -18,14 +22,36 @@ export default function PaperworkPage() {
   ];
 
   const openTemplateModal = (type: string) => {
-    setSelectedTemplateType(type);
+    setSelectedTemplate(null);
     setIsTemplateModalOpen(true);
   };
 
-  const handleTemplateSelect = (templateId: number) => {
+  const handleTemplateSelect = async (templateId: number) => {
     setSelectedTemplate(templateId);
     setIsTemplateModalOpen(false);
     setIsCreateModalOpen(true);
+  };
+
+  const handleCreateContract = async () => {
+    if (!selectedTemplate || !prompt) {
+      alert('Please provide contract requirements');
+      return;
+    }
+
+    setIsCreating(true);
+    try {
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Generate a random contract ID
+      const contractId = Math.random().toString(36).substring(7);
+      
+      // Navigate to the contract page
+      router.push(`/dashboard/paperwork/${contractId}`);
+    } catch (error) {
+      alert('Failed to create contract');
+      setIsCreating(false);
+    }
   };
 
   return (
@@ -205,7 +231,7 @@ export default function PaperworkPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsCreateModalOpen(false)}
-              className="fixed inset-0 bg-black/5 dark:bg-white/5 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-black/5 backdrop-blur-sm z-40"
             />
             
             <motion.div
@@ -246,8 +272,19 @@ export default function PaperworkPage() {
                   >
                     Cancel
                   </button>
-                  <button className="px-4 py-2 text-sm bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200">
-                    Generate Contract
+                  <button 
+                    onClick={handleCreateContract}
+                    disabled={isCreating}
+                    className="px-4 py-2 text-sm bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 disabled:opacity-50"
+                  >
+                    {isCreating ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white dark:border-black border-t-transparent dark:border-t-transparent rounded-full animate-spin" />
+                        <span>Generating...</span>
+                      </div>
+                    ) : (
+                      'Generate Contract'
+                    )}
                   </button>
                 </div>
               </div>

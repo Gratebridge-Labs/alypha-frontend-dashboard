@@ -1,4 +1,23 @@
+'use client';
+import { useRouter } from 'next/navigation';
+
 export default function LoginPage() {
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Here you would typically handle authentication
+    // For now, we'll just redirect to dashboard
+    router.push('/dashboard');
+  };
+
+  const handleGoogleLogin = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    // Here you would handle Google OAuth
+    // For now, we'll just redirect to dashboard
+    router.push('/dashboard');
+  };
+
   return (
     <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-white dark:bg-black">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -12,7 +31,7 @@ export default function LoginPage() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white dark:bg-black py-8 px-4 shadow-sm ring-1 ring-black/5 dark:ring-white/5 sm:rounded-lg sm:px-10">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium">
                 Email address
@@ -90,6 +109,7 @@ export default function LoginPage() {
             <div className="mt-6">
               <a
                 href="#"
+                onClick={handleGoogleLogin}
                 className="w-full inline-flex justify-center py-2 px-4 border border-black/10 dark:border-white/10 rounded-md shadow-sm bg-white dark:bg-black text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-900"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">

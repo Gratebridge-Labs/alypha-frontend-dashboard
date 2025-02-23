@@ -1,138 +1,114 @@
 'use client';
 import { useState } from 'react';
 import Image from 'next/image';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
-export default function PromptPage() {
-  const [prompt, setPrompt] = useState('');
-  const [isRecording, setIsRecording] = useState(false);
-
-  const shortcuts = [
-    { mac: '⌘ + V', ios: 'Tap + Hold', description: 'Start voice recording' },
-    { mac: '⌘ + I', ios: 'Tap Image', description: 'Upload image' },
-    { mac: '⌘ + D', ios: 'Tap Doc', description: 'Upload document' },
-    { mac: '⌘ + ⏎', ios: 'Blue Button', description: 'Send prompt' },
-  ];
-
-  const suggestions = [
-    {
-      category: "Integrations",
-      prompts: [
-        "Create a Jira epic from this project brief",
-        "Send daily updates to Slack channel #team-updates",
-        "Generate a Notion template for content calendar",
-        "Sync this timeline with Google Calendar"
-      ]
-    },
-    {
-      category: "Automation",
-      prompts: [
-        "Generate a weekly progress report for stakeholders",
-        "Create custom invoice template for my business",
-        "Schedule social media posts for next week",
-        "Auto-respond to WhatsApp customer inquiries"
-      ]
-    },
-    {
-      category: "SME Tools",
-      prompts: [
-        "Generate a professional website for my bakery",
-        "Create a pricing catalog with WhatsApp integration",
-        "Set up automated order confirmation system",
-        "Design a customer loyalty program"
-      ]
-    },
-    {
-      category: "Productivity",
-      prompts: [
-        "Analyze team performance and suggest improvements",
-        "Organize project documents by priority",
-        "Create meeting summary and action items",
-        "Generate project timeline with resource allocation"
-      ]
-    }
-  ];
-
+export default function DashboardHome() {
   return (
-    <div className="max-w-4xl mx-auto">
-      {/* Shortcuts Panel */}
-      <div className="mb-8 p-4 rounded-lg border border-black/[.08] dark:border-white/[.08] bg-black/[.02] dark:bg-white/[.02]">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {shortcuts.map((shortcut, i) => (
-            <div key={i} className="text-sm">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="font-mono bg-black/[.05] dark:bg-white/[.05] px-2 py-1 rounded text-xs">
-                  {shortcut.mac}
-                </span>
-                <span className="text-black/40 dark:text-white/40">|</span>
-                <span className="font-mono bg-black/[.05] dark:bg-white/[.05] px-2 py-1 rounded text-xs">
-                  {shortcut.ios}
-                </span>
-              </div>
-              <p className="text-black/60 dark:text-white/60">{shortcut.description}</p>
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">Welcome back!</h1>
+        <Button variant="default">Quick Action</Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="p-6">
+          <h3 className="font-medium mb-2">Business Performance</h3>
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-500">Revenue</span>
+              <span className="font-medium">$24,500</span>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Main Prompt Area */}
-      <div className="relative mb-4">
-        <textarea
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Type your prompt here or use shortcuts for voice/image/document input..."
-          className="w-full h-40 p-4 rounded-lg border border-black/[.08] dark:border-white/[.08] bg-white dark:bg-black focus:ring-2 focus:ring-black dark:focus:ring-white focus:outline-none resize-none"
-        />
-        
-        {/* Action Buttons */}
-        <div className="absolute bottom-4 right-4 flex items-center gap-2">
-          {/* Document Upload Button */}
-          <button className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          </button>
-          {/* Image Upload Button */}
-          <button className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          </button>
-          {/* Voice Recording Button */}
-          <button 
-            className={`p-2 rounded-full ${isRecording ? 'text-red-500' : ''} hover:bg-black/5 dark:hover:bg-white/5`}
-            onClick={() => setIsRecording(!isRecording)}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-            </svg>
-          </button>
-          {/* Send Button */}
-          <button className="p-2 rounded-full bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Suggestions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {suggestions.map((category, i) => (
-          <div key={i} className="space-y-3">
-            <h3 className="text-sm font-medium">{category.category}</h3>
-            <div className="space-y-2">
-              {category.prompts.map((prompt, j) => (
-                <button
-                  key={j}
-                  onClick={() => setPrompt(prompt)}
-                  className="w-full text-left text-sm px-3 py-2 rounded-lg border border-black/[.08] dark:border-white/[.08] hover:bg-black/5 dark:hover:bg-white/5"
-                >
-                  {prompt}
-                </button>
-              ))}
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-500">Customers</span>
+              <span className="font-medium">143</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-500">Active Projects</span>
+              <span className="font-medium">12</span>
             </div>
           </div>
-        ))}
+        </Card>
+
+        <Card className="p-6">
+          <h3 className="font-medium mb-2">AI Insights</h3>
+          <p className="text-sm text-gray-500">Your customer engagement has increased by 25% this week. Consider launching a new marketing campaign.</p>
+        </Card>
+
+        <Card className="p-6">
+          <h3 className="font-medium mb-2">Quick Actions</h3>
+          <div className="space-y-2">
+            <Button variant="outline" className="w-full justify-start">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              New Project
+            </Button>
+            <Button variant="outline" className="w-full justify-start">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Schedule Meeting
+            </Button>
+            <Button variant="outline" className="w-full justify-start">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+              </svg>
+              Create Campaign
+            </Button>
+          </div>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className="p-6">
+          <h3 className="font-medium mb-4">Recent Activity</h3>
+          <div className="space-y-4">
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-medium">New lead captured</p>
+                <p className="text-xs text-gray-500">2 minutes ago</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-medium">Contract signed</p>
+                <p className="text-xs text-gray-500">1 hour ago</p>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6">
+          <h3 className="font-medium mb-4">Upcoming Tasks</h3>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <input type="checkbox" className="rounded border-gray-300" />
+                <span className="text-sm">Review marketing campaign</span>
+              </div>
+              <span className="text-xs text-gray-500">Today</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <input type="checkbox" className="rounded border-gray-300" />
+                <span className="text-sm">Client meeting</span>
+              </div>
+              <span className="text-xs text-gray-500">Tomorrow</span>
+            </div>
+          </div>
+        </Card>
       </div>
     </div>
   );

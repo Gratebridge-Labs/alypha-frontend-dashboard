@@ -4,15 +4,27 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
-        port: '',
-        pathname: '/**',
+        hostname: 'cdn.svgporn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.vectorlogo.zone',
       },
       {
         protocol: 'https',
         hostname: 'upload.wikimedia.org',
-        port: '',
-        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'static.intercomassets.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.zendesk.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
       }
     ],
   },

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 export function DashboardContent({
   children,
@@ -9,6 +10,15 @@ export function DashboardContent({
   children: React.ReactNode;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const pathname = usePathname();
+
+  // Function to check if route is active
+  const isRouteActive = (href: string) => {
+    if (href === '/dashboard') {
+      return pathname === '/dashboard';
+    }
+    return pathname.startsWith(href);
+  };
 
   const navigation = [
     { name: 'Home', href: '/dashboard', icon: (
@@ -75,7 +85,7 @@ export function DashboardContent({
           <div className="flex items-center gap-2">
             <span className="text-2xl">א</span>
             <span className="font-[family-name:var(--font-geist-mono)]">Alypha</span>
-            <span className="ml-2 inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium">
+            <span className="ml-2 inline-flex items-center rounded-full bg-gradient-to-r from-violet-600/10 to-indigo-600/10 px-2 py-1 text-xs font-medium text-violet-600 border border-violet-200">
               Beta
             </span>
           </div>
@@ -89,16 +99,26 @@ export function DashboardContent({
           </button>
         </div>
         <nav className="flex-1 space-y-1 px-2 py-4">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="group flex items-center px-2 py-2 text-sm font-medium rounded-md hover:bg-gray-50"
-            >
-              {item.icon}
-              <span className="ml-3">{item.name}</span>
-            </Link>
-          ))}
+          {navigation.map((item) => {
+            const isActive = isRouteActive(item.href);
+            
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors
+                  ${isActive 
+                    ? 'bg-gray-100 text-gray-900'
+                    : 'text-gray-900 hover:bg-gray-50'
+                  }`}
+              >
+                <span className="text-gray-900">
+                  {item.icon}
+                </span>
+                <span className="ml-3">{item.name}</span>
+              </Link>
+            );
+          })}
         </nav>
       </div>
 
@@ -138,13 +158,9 @@ export function DashboardContent({
               ))}
             </div>
 
-            <Image
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt="Profile"
-              width={32}
-              height={32}
-              className="rounded-full ring-2 ring-gray-200"
-            />
+            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white text-sm font-medium">
+              AT
+            </div>
           </div>
         </div>
 
